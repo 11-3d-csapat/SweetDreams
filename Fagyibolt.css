@@ -1,0 +1,110 @@
+#SweetDreams{
+color: rgb(255, 0, 0);
+}
+
+header{
+    background-color: rgb(247,208,203);
+    color: red;
+    font-size: xx-large;
+    margin-left: 40px;
+}
+
+head{
+    background-color: rgb(255, 255, 255);
+}
+
+h1{
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+    text-align: center;
+    font-size: 200%;
+}
+
+h2{
+    font-weight: lighter;
+    color: rgb(255, 0, 0);
+    text-align: left;
+    margin-left: 40px;
+}
+
+h3{
+    font-size: x-large;
+    font-weight: lighter;
+    color: rgb(0, 0, 0);
+    text-align: center;
+}
+
+h4{
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+    font-size: xx-large;
+    margin-left: 40px;
+    text-align: left;
+}
+
+h5{
+    color: rgb(255, 0, 0);
+    text-align: center;
+    font-size: 140%;
+    font-weight: lighter;
+}
+
+h6{
+    color: black;
+    font-size: large;
+    text-align: right;
+}
+
+body{
+    background-color: rgb(255, 255, 255);
+}
+
+
+ul li:last-child {
+  border-right: none;
+}
+
+ul {
+  position: sticky;
+  bottom: 50;
+  width: 100%;
+  font-size: 20px;
+  text-align: center;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.navbar{
+    background: rgb(0, 0, 0); font-family: calibri; padding-right: 250px;padding-left: 250px;
+    line-height: 50%;
+    color: rgb(255, 255, 255);
+}
+.navdiv{
+	display: flex; justify-content: space-between ;
+}
+li{
+	list-style: none; display: inline-block;
+}
+li a{
+	color: rgb(255, 255, 255); font-size: 20px; font-weight: bold; margin-right: 15px;
+}
+p{
+    font-size: xx-large;
+    color: black;
+}
+
+details {
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 8px;
+}
+
+summary {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+button{
+    text-align: center;
+}
