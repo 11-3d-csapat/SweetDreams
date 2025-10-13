@@ -8,3 +8,8 @@ function telnumber(){
     alert("A telefonszámod "+phonenumber+"!");
 }
 
+// 1. oldal legyen teljesen kész jövőhétre Október 13.
+
+
+
+

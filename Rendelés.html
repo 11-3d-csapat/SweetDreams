@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🍦Édes Álmok</title>
+  <link rel="stylesheet" href="Fagyibolt.css">
+  <script src="Fagyibolt.js" defer></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="top-bar">
+      <div class="logo">
+        <big>🍦</big>
+        <div>
+          <h1>Édes Álmok</h1>
+          <p>Fagylaltozó rendelési rendszer</p>
+        </div>
+      </div>
+      <div class="date-box">
+        📅<span id="date">></span>
+      </div>
+    </div>
+  </header>
+  
+    <link rel="stylesheet" href="Fagyibolt.css">
+    <nav class="navbar">
+      <ul>
+        <li><a href="Főoldal.html" class="active">🏠Főoldal</a></li>
+        <li><a href="Galéria.html">📷Galéria</a></li>
+        <li><a href="Rólunk.html">💬Rólunk</a></li>
+        <li><a href="Allergének.html">⚠️Allergének</a></li>
+        <li><a href="Rendelés.html">🛒Rendelés</a></li>
+        <li><a href="Rendelések.html">📝Rendelések</a></li>
+        <li><a href="GYIK.html">❓GYIK</a></li>
+        <li><a href="Kapcsolat.html">📞Kapcsolat</a></li>
+      </ul>
+    </nav>
+
+    <h1 id="Order">
+    Új rendelés
+    <p>
+    <label>Rendelő neve * <input type="text" id="fullname"></label>
+    <button onclick="fullname()">
+        OK
+    </button>
+    <label>Telefonszám * <input type="text" id="telnumber"></label>
+    <button onclick="telnumber()">
+        OK
+    </button>
+    </p>
+    <section>
+        Fagylalt rendelés *
+        <button onclick="addportion()">+ Gombóc hozzáadása</button>
+    </section>
+    <section>
+    Kiegészítők
+    <p>
+    Cukorszórás(+200 Ft)
+    Allergénmentes
+    </p>
+    <p>
+    Roletti(+300 Ft)
+    Allergének: glutén,tej, laktóz
+    </p>
+    <p>
+    Sima tölcsér(+150 Ft)
+    Allergének: glutén, tojás
+    </p>
+    <p>
+    Édes tölcsér(+150 Ft)
+    Allergének: glutén, tojás, tej, laktóz
+    </p>
+    </section>
+    <section>
+        Végösszeg: 
+        <button onclick="OrderNow()">Rendelés leadása</button>
+    </section>
+    </h1>
+</body>
+</html>
