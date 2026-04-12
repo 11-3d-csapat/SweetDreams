@@ -112,11 +112,9 @@
     </nav>
 
     <div class="admin-panel-container" id="adminPanel">
-        <!-- Admin ellenőrzés -->
     </div>
 
     <script>
-        // Bejelentkezés ellenőrzése
         function checkAdminLogin() {
             const isLoggedIn = sessionStorage.getItem("adminLoggedIn");
             if (isLoggedIn !== "true") {
@@ -124,14 +122,13 @@
             }
         }
 
-        // Kijelentkezés
+        
         function adminLogout() {
             sessionStorage.removeItem("adminLoggedIn");
             sessionStorage.removeItem("adminName");
             window.location.href = "AdminLogin.html";
         }
 
-        // Rendelések betöltése a backendről
         async function loadOrders() {
             try {
                 const response = await fetch('/rendelesek');
@@ -140,7 +137,6 @@
                     displayOrders(orders);
                     updateStats(orders);
                 } else {
-                    // Ha nincs backend, mutassunk mintarendeléseket
                     showSampleOrders();
                 }
             } catch (error) {
@@ -231,7 +227,6 @@
             const totalRevenue = orders.reduce((sum, order) => sum + order.vegosszeg, 0);
             const avgOrder = totalOrders > 0 ? totalRevenue / totalOrders : 0;
             
-            // Mai rendelések szűrése
             const today = new Date().toISOString().split('T')[0];
             const todayOrders = orders.filter(order => order.datum.split(' ')[0] === today).length;
             
@@ -241,13 +236,11 @@
             document.getElementById("avgOrder").textContent = Math.round(avgOrder).toLocaleString() + " Ft";
         }
 
-        // Dátum megjelenítése
         const now = new Date();
         document.getElementById('date').textContent = now.getFullYear() + '.' + 
                      (now.getMonth() + 1) + '.' + 
                      now.getDate() + '.';
 
-        // Admin ellenőrzés és rendelések betöltése
         checkAdminLogin();
         loadOrders();
     </script>
