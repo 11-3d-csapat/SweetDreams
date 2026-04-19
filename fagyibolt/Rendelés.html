@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🍦Rendelés - Édes Álmok</title>
+    <link rel="stylesheet" href="Fagyibolt.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+    <header class="header">
+        <div class="top-bar">
+            <div class="logo">
+                <big>🍦</big>
+                <div>
+                    <h1>Édes Álmok</h1>
+                    <p>Fagylaltozó rendelési rendszer</p>
+                </div>
+            </div>
+            <div class="date-box">
+                📅<span id="date"></span>
+            </div>
+        </div>
+    </header>
+
+    <nav class="navbar">
+        <ul>
+            <li><a href="Főoldal.html">🏠Főoldal</a></li>
+            <li><a href="Galéria.html">📷Galéria</a></li>
+            <li><a href="Rólunk.html">💬Rólunk</a></li>
+            <li><a href="Allergének.html">⚠️Allergének</a></li>
+            <li><a href="Rendelés.html" class="active">🛒Rendelés</a></li>
+            <li><a href="GYIK.html">❓GYIK</a></li>
+            <li><a href="Kapcsolat.html">📞Kapcsolat</a></li>
+            <li><a href="AdminLogin.html">👑Admin</a></li>
+        </ul>
+    </nav>
+
+   <div class="container">
+  <h2>Új rendelés</h2>
+
+  <div class="row">
+    <input type="text" placeholder="Teljes név">
+    <input type="text" placeholder="+36 30 123 4567">
+  </div>
+
+  <hr>
+
+  <h3>Fagylalt rendelés</h3>
+
+  <div id="orders"></div>
+
+  <button onclick="addOrder()">+ Gombóc hozzáadása</button>
+
+  <hr>
+
+  <h3>Kiegészítők</h3>
+
+  <div class="extra">
+    <span>Roletti (300 Ft)</span>
+    <input type="number" min="0" value="0" onchange="updateTotal()" id="roletti">
+  </div>
+
+  <div class="extra">
+    <span>Cukorszórás (200 Ft)</span>
+    <input type="number" min="0" value="0" onchange="updateTotal()" id="cukor">
+  </div>
+
+  <div class="extra">
+    <span>Sima tölcsér (150 Ft)</span>
+    <input type="number" min="0" value="0" onchange="updateTotal()" id="tolcser">
+  </div>
+
+  <div class="extra">
+    <span>Édes tölcsér (250 Ft)</span>
+    <input type="number" min="0" value="0" onchange="updateTotal()" id="edes">
+  </div>
+
+  <hr>
+
+  <div id="warning" class="warning" style="display:none;">
+  ⚠️ Allergén figyelmeztetés:<br>
+  <span id="allergensList"></span>
+</div>
+
+<button onclick="submitOrder()" class="orderBtn">
+  Rendelés leadása
+</button>
+
+  <div class="total">
+    Végösszeg: <span id="total">0</span> Ft
+  </div>
+</div>
+
+<style>
+    body {
+  font-family: Arial;
+  background: #f5f5f5;
+}
+
+.container {
+  max-width: 700px;
+  margin: auto;
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+}
+
+.row {
+  display: flex;
+  gap: 10px;
+}
+
+input, select {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.order {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  align-items: center;
+}
+
+button {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.extra {
+  display: flex;
+  justify-content: space-between;
+  margin: 5px 0;
+}
+
+.total {
+  background: #eee;
+  padding: 15px;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+.warning {
+  background: #fff3cd;
+  border: 1px solid orange;
+  padding: 15px;
+  border-radius: 10px;
+  margin-top: 15px;
+}
+
+.orderBtn {
+  width: 100%;
+  margin-top: 15px;
+  padding: 12px;
+  background: black;
+  color: white;
+  border-radius: 10px;
+  font-weight: bold;
+}
+</style>
+
+<script>
+const flavors = [
+    "Csoki","Vanília","Eper","Citrom",
+    "Rumos dió","Oreó","Pisztácia",
+    "Ananász","Mangó","Puncs"
+];
+
+let orders = [];
+
+const allergens = {
+    "Csoki": ["tej", "laktóz"],
+    "Vanília": ["tej", "laktóz"],
+    "Eper": [],
+    "Citrom": [],
+    "Rumos dió": ["dió"],
+    "Oreó": ["glutén", "tej"],
+    "Pisztácia": ["dió"],
+    "Ananász": [],
+    "Mangó": [],
+    "Puncs": []
+};
+
+const extraAllergens = {
+    cukor: [],
+    roletti: ["glutén", "tej", "laktóz"],
+    tolcser: ["glutén", "tojás"],
+    edes: ["glutén", "tojás", "tej", "laktóz"]
+};
+
+function addOrder() {
+    orders.push({ flavor:"", size:"small", qty:1 });
+    renderOrders();
+}
+
+function renderOrders() {
+    const container = document.getElementById("orders");
+    container.innerHTML = "";
+
+    orders.forEach((order, index) => {
+        const price = order.size === "small" ? 450 : 650;
+        const total = price * order.qty;
+
+        container.innerHTML += `
+        <div class="order">
+            <select onchange="changeFlavor(${index}, this.value)">
+                <option value="">Válassz ízt</option>
+                ${flavors.map(f => `
+                    <option ${f===order.flavor?"selected":""}>${f}</option>
+                `).join("")}
+            </select>
+
+            <select onchange="changeSize(${index}, this.value)">
+                <option value="small" ${order.size==="small"?"selected":""}>Kis</option>
+                <option value="big" ${order.size==="big"?"selected":""}>Nagy</option>
+            </select>
+
+            <input type="number" min="1" value="${order.qty}" onchange="changeQty(${index}, this.value)">
+            <span>${total} Ft</span>
+            <button onclick="removeOrder(${index})">X</button>
+        </div>`;
+    });
+
+    updateTotal();
+}
+
+function changeFlavor(i,val){ orders[i].flavor = val; updateTotal(); }
+function changeSize(i,val){ orders[i].size = val; renderOrders(); }
+function changeQty(i,val){ orders[i].qty = Number(val); renderOrders(); }
+function removeOrder(i){ orders.splice(i,1); renderOrders(); }
+
+function updateTotal() {
+    let total = 0;
+
+    orders.forEach(o => {
+        const price = o.size === "small" ? 450 : 650;
+        total += price * o.qty;
+    });
+
+    total += (Number(roletti.value)*300);
+    total += (Number(cukor.value)*200);
+    total += (Number(tolcser.value)*150);
+    total += (Number(edes.value)*250);
+
+    document.getElementById("total").innerText = total;
+
+    updateAllergens();
+}
+
+function updateAllergens() {
+    let set = new Set();
+
+    orders.forEach(o => {
+        (allergens[o.flavor] || []).forEach(a => set.add(a));
+    });
+
+    if (roletti.value > 0) extraAllergens.roletti.forEach(a=>set.add(a));
+    if (tolcser.value > 0) extraAllergens.tolcser.forEach(a=>set.add(a));
+    if (edes.value > 0) extraAllergens.edes.forEach(a=>set.add(a));
+
+    const warning = document.getElementById("warning");
+    const list = document.getElementById("allergensList");
+
+    if (set.size > 0) {
+        warning.style.display = "block";
+        list.innerHTML = [...set].join(", ");
+    } else {
+        warning.style.display = "none";
+    }
+}
+
+function submitOrder() {
+    if (orders.length === 0) {
+        alert("Nincs rendelés!");
+        return;
+    }
+
+    const data = {
+        name: document.querySelectorAll("input")[0].value,
+        phone: document.querySelectorAll("input")[1].value,
+        items: orders,
+        total: document.getElementById("total").innerText
+    };
+
+    console.log("RENDELÉS:", data);
+
+    alert("Rendelés sikeresen leadva! 🎉");
+
+    orders = [];
+    renderOrders();
+
+    roletti.value = cukor.value = tolcser.value = edes.value = 0;
+    updateTotal();
+}
+
+addOrder();
+</script>
+
+  <script>
+        const now = new Date();
+        document.getElementById('date').textContent = now.getFullYear() + '.' + 
+                     (now.getMonth() + 1) + '.' + 
+                     now.getDate() + '.';
+    </script>
+
+</body>
+</html>
