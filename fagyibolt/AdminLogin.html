@@ -5,161 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Bejelentkezés - Édes Álmok</title>
     <link rel="stylesheet" href="Fagyibolt.css">
-    <style>
-        #loginPage {
-            text-align: center;
-            margin-top: 100px;
-        }
-        
-        #loginPage h1 {
-            color: #e91e63;
-        }
-        
-        #loginPage input {
-            padding: 10px;
-            width: 250px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-        }
-        
-        #loginPage button {
-            padding: 10px 30px;
-            background-color: #e91e63;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-        
-        #loginPage button:hover {
-            background-color: #c2185b;
-        }
-        
-        .hidden {
-            display: none;
-        }
-        
-        #message {
-            margin-top: 15px;
-            font-weight: bold;
-        }
-
-        .sidebar {
-            width: 250px;
-            background: linear-gradient(to bottom, #f9e1ef, #dbe9ff);
-            padding: 20px;
-            position: fixed;
-            left: 0;
-            top: 200px;
-            height: 100%;
-            transition: 0.3s;
-        }
-
-        .sidebar.collapsed {
-            width: 60px;
-        }
-
-        .sidebar.collapsed ul li {
-            display: none;
-        }
-
-        .sidebar button {
-            background: #e91e63;
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 8px;
-            cursor: pointer;
-            margin-bottom: 20px;
-        }
-
-        .sidebar ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .sidebar ul li {
-            padding: 12px;
-            margin: 5px 0;
-            background: white;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .sidebar ul li:hover {
-            background: #e91e63;
-            color: white;
-        }
-
-        #content {
-            margin-left: 270px;
-            padding: 20px;
-            transition: 0.3s;
-        }
-
-        .sidebar.collapsed + #content {
-            margin-left: 80px;
-        }
-
-        #pageTitle {
-            color: #e91e63;
-        }
-
-        .rendeles-tabla {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .rendeles-tabla th, .rendeles-tabla td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .rendeles-tabla th {
-            background: #e91e63;
-            color: white;
-        }
-
-        .fagylalt-lista {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 15px;
-        }
-
-        .fagylalt-kartya {
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            border: 1px solid #ddd;
-        }
-
-        .allergen-lista {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-        }
-
-        .kijelentkezes-btn {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            background: #e91e63;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-    </style>
 </head>
 <body>
 
-    <header class="header">
+<header class="header">
         <div class="top-bar">
             <div class="logo">
                 <big>🍦</big>
@@ -172,9 +21,9 @@
                 📅<span id="date"></span>
             </div>
         </div>
-    </header>
+</header>
 
-    <nav class="navbar">
+<nav class="navbar">
         <ul>
             <li><a href="Főoldal.html">🏠Főoldal</a></li>
             <li><a href="Galéria.html">📷Galéria</a></li>
@@ -186,126 +35,114 @@
             <li><a href="Kapcsolat.html">📞Kapcsolat</a></li>
             <li><a href="AdminLogin.html" class="active">👑Admin</a></li>
         </ul>
-    </nav>
+</nav>
 
-    <div id="loginPage">
+<div id="loginPage">
         <h1>Admin Login</h1>
         <input type="text" id="username" placeholder="felhasználónév"><br><br>
         <input type="password" id="password" placeholder="jelszó"><br><br>
         <button onclick="login()">Bejelentkezés</button>
         <p id="message"></p>
+</div>
+
+<div id="dashboard" class="hidden">
+        <h2>Admin Panel</h2>
+        <button onclick="logout()">Kijelentkezés</button>
+        
+    <div>
+        <button onclick="showPage('orders')">Rendelések</button>
+        <button onclick="showPage('flavors')">Fagylaltok</button>
+        <button onclick="showPage('allergens')">Allergének</button>
     </div>
 
-    <div id="dashboard" class="hidden">
-        <div id="sidebar" class="sidebar">
-            <button onclick="toggleMenu()">☰</button>
-            <ul>
-                <li onclick="showPage('page1')">📊 Rendelések</li>
-                <li onclick="showPage('page2')">🍦 Fagylaltok</li>
-                <li onclick="showPage('page3')">⚠️ Allergének</li>
-            </ul>
-        </div>
-        <div id="content">
-            <h1 id="pageTitle"></h1>
-            <div id="pageContent"></div>
-        </div>
-        <button class="kijelentkezes-btn" onclick="logout()">🚪 Kijelentkezés</button>
+    <div id="content">
+        <h3 id="pageTitle"></h3>
+        <div id="pageContent"></div>
     </div>
+</div>
 
-    <script>
-        let rendelesek = [
-            { id: 1, nev: "Kovács János", telefon: "06301234567", osszeg: 1350, datum: "2024-01-15" },
-            { id: 2, nev: "Nagy Anna", telefon: "06309876543", osszeg: 900, datum: "2024-01-15" },
-            { id: 3, nev: "Szabó Péter", telefon: "06305551234", osszeg: 1800, datum: "2024-01-16" }
-        ];
-
-        let fagylaltok = [
-            { nev: "Csoki", ar_kis: 450, ar_nagy: 650, allergen: "tej, laktóz" },
-            { nev: "Vanília", ar_kis: 450, ar_nagy: 650, allergen: "tej, laktóz" },
-            { nev: "Eper", ar_kis: 450, ar_nagy: 650, allergen: "tej, laktóz" },
-            { nev: "Rumos dió", ar_kis: 450, ar_nagy: 650, allergen: "tej, laktóz, dió" },
-            { nev: "Oreó", ar_kis: 450, ar_nagy: 650, allergen: "tej, laktóz, glutén, szója" }
-        ];
-
-        let allergenek = [
-            { termek: "Csoki", allergenek: "tej, laktóz" },
-            { termek: "Vanília", allergenek: "tej, laktóz" },
-            { termek: "Rumos dió", allergenek: "tej, laktóz, dió" },
-            { termek: "Oreó", allergenek: "tej, laktóz, glutén, szója" },
-            { termek: "Roletti", allergenek: "glutén, tej, laktóz" }
-        ];
-
+<script>
         function login() {
             let username = document.getElementById("username").value;
             let password = document.getElementById("password").value;
-            let messageDiv = document.getElementById("message");
+            let message = document.getElementById("message");
 
-            if (username === "admin" && password === "admin123") {
-                messageDiv.textContent = "Sikeres bejelentkezés";
-                messageDiv.style.color = "green";
-                document.getElementById("loginPage").classList.add("hidden");
-                document.getElementById("dashboard").classList.remove("hidden");
-                showPage("page1");
-            } else {
-                messageDiv.textContent = "Hibás próbálkozás";
-                messageDiv.style.color = "red";
-            }
-        }
-
-        function toggleMenu() {
-            const sidebar = document.getElementById("sidebar");
-            sidebar.classList.toggle("collapsed");
+            fetch("http://localhost:3000/api/admin/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    username: username,
+                    password: password
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    message.textContent = "Sikeres bejelentkezés";
+                    document.getElementById("loginPage").classList.add("hidden");
+                    document.getElementById("dashboard").classList.remove("hidden");
+                    showPage("orders");
+                } else {
+                    message.textContent = "Hibás próbálkozás";
+                }
+            })
+            .catch(error => {
+                message.textContent = "Hálózati hiba";
+            });
         }
 
         function showPage(page) {
-            const title = document.getElementById("pageTitle");
-            const content = document.getElementById("pageContent");
-            
-            if (page === "page1") {
-                title.innerText = "Rendelések";
-                let html = `<table class="rendeles-tabla">
-                    <thead>
-                        <tr><th>ID</th><th>Név</th><th>Telefonszám</th><th>Összeg</th><th>Dátum</th></tr>
-                    </thead>
-                    <tbody>`;
-                for (let i = 0; i < rendelesek.length; i++) {
-                    html += `<tr>
-                        <td>${rendelesek[i].id}</td>
-                        <td>${rendelesek[i].nev}</td>
-                        <td>${rendelesek[i].telefon}</td>
-                        <td>${rendelesek[i].osszeg} Ft</td>
-                        <td>${rendelesek[i].datum}</td>
-                    </tr>`;
-                }
-                html += `</tbody></table>`;
-                content.innerHTML = html;
+            let title = document.getElementById("pageTitle");
+            let content = document.getElementById("pageContent");
+
+            if (page === "orders") {
+                title.textContent = "Rendelések";
+                fetch("http://localhost:3000/api/rendelesek")
+                    .then(response => response.json())
+                    .then(data => {
+                        let html = "";
+                        for (let i = 0; i < data.length; i++) {
+                            html += "<p>" + data[i].nev + " - " + data[i].telefonszam + " - " + data[i].vegosszeg + " Ft - " + data[i].datum + "</p>";
+                        }
+                        content.innerHTML = html;
+                    })
+                    .catch(error => {
+                        content.innerHTML = "<p>Hiba a rendelések betöltésekor</p>";
+                    });
             }
             
-            if (page === "page2") {
-                title.innerText = "Fagylaltok";
-                let html = `<div class="fagylalt-lista">`;
-                for (let i = 0; i < fagylaltok.length; i++) {
-                    html += `<div class="fagylalt-kartya">
-                        <h3>🍦 ${fagylaltok[i].nev}</h3>
-                        <p>Kis gombóc: ${fagylaltok[i].ar_kis} Ft</p>
-                        <p>Nagy gombóc: ${fagylaltok[i].ar_nagy} Ft</p>
-                        <p>⚠️ Allergén: ${fagylaltok[i].allergen}</p>
-                    </div>`;
-                }
-                html += `</div>`;
-                content.innerHTML = html;
+            if (page === "flavors") {
+                title.textContent = "Fagylaltok";
+                fetch("http://localhost:3000/api/fagylaltok")
+                    .then(response => response.json())
+                    .then(data => {
+                        let html = "";
+                        for (let i = 0; i < data.length; i++) {
+                            html += "<p>" + data[i].nev + " - " + data[i].ar_kis + "/" + data[i].ar_nagy + " Ft</p>";
+                        }
+                        content.innerHTML = html;
+                    })
+                    .catch(error => {
+                        content.innerHTML = "<p>Hiba a fagylaltok betöltésekor</p>";
+                    });
             }
             
-            if (page === "page3") {
-                title.innerText = "Allergének";
-                let html = `<div class="allergen-lista">
-                    <h3>⚠️ Allergén információk</h3>
-                    <ul>`;
-                for (let i = 0; i < allergenek.length; i++) {
-                    html += `<li><strong>${allergenek[i].termek}:</strong> ${allergenek[i].allergenek}</li>`;
-                }
-                html += `</ul></div>`;
-                content.innerHTML = html;
+            if (page === "allergens") {
+                title.textContent = "Allergének";
+                fetch("http://localhost:3000/api/allergenek")
+                    .then(response => response.json())
+                    .then(data => {
+                        let html = "";
+                        for (let i = 0; i < data.length; i++) {
+                            html += "<p>" + data[i].termek + ": " + data[i].allergenek + "</p>";
+                        }
+                        content.innerHTML = html;
+                    })
+                    .catch(error => {
+                        content.innerHTML = "<p>Hiba az allergének betöltésekor</p>";
+                    });
             }
         }
 
@@ -317,7 +154,39 @@
             document.getElementById("message").textContent = "";
         }
 
-        document.getElementById('date').innerText = new Date().getFullYear() + '.' + (new Date().getMonth() + 1) + '.' + new Date().getDate() + '.';
-    </script>
+        document.getElementById("date").textContent = new Date().getFullYear() + "." + (new Date().getMonth() + 1) + "." + new Date().getDate() + ".";
+</script>
+
+<style>
+        .hidden {
+            display: none;
+        }
+        #loginPage {
+            text-align: center;
+            margin-top: 50px;
+        }
+        #loginPage input, #loginPage button {
+            padding: 8px;
+            margin: 5px;
+        }
+        #dashboard {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+        }
+        #dashboard button {
+            padding: 8px 15px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        #content {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+</style>
 </body>
 </html>
