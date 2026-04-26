@@ -4,7 +4,7 @@ const app = express();
 const PORT = 3000;
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.static(__dirname));
 
 const db = mysql.createConnection({
     host: 'localhost',
@@ -13,62 +13,52 @@ const db = mysql.createConnection({
     database: 'fagyibolt'
 });
 
-db.connect(() => console.log('MySQL OK'));
-app.use(express.static('SweetDreams'));
-
-app.get('/fagylaltok', (req, res) => {
-    db.query('SELECT * FROM fagylaltok', (err, results) => {
-        err ? res.status(500).send(err.message) : res.json(results);
-    });
+db.connect((err) => {
+    if (err) {
+        console.log('MySQL hiba:', err.message);
+    } else {
+        console.log('MySQL OK');
+    }
 });
 
-app.post('/rendeles', (req, res) => {
-    const { nev, telefonszam, osszeg } = req.body;
+app.post('/api/admin/login', (req, res) => {
+    const { username, password } = req.body;
     
-    db.query(
-        'INSERT INTO rendelesek (nev, telefonszam, vegosszeg, datum) VALUES (?, ?, ?, NOW())',
-        [nev, telefonszam, osszeg],
-        (err) => {
-            if (err) {
-                res.send('Hiba: ' + err.message);
-            } else {
-                res.send('Rendelés sikeresen mentve!');
-            }
-        }
-    );
+    if (username === 'admin' && password === 'admin123') {
+        res.json({ success: true });
+    } else {
+        res.json({ success: false });
+    }
 });
 
-app.listen(PORT, () => console.log(`http://localhost:${PORT}`));
-
-// Rendelések lekérése admin számára
-app.get('/rendelesek', (req, res) => {
+app.get('/api/rendelesek', (req, res) => {
     db.query('SELECT * FROM rendelesek ORDER BY datum DESC', (err, results) => {
         if (err) {
-            res.status(500).json({ error: err.message });
+            res.status(500).json([]);
         } else {
             res.json(results);
         }
     });
 });
 
-// Fagylaltok kezelése (CRUD)
 app.get('/api/fagylaltok', (req, res) => {
     db.query('SELECT * FROM fagylaltok', (err, results) => {
-        err ? res.status(500).json({ error: err.message }) : res.json(results);
+        if (err) {
+            res.status(500).json([]);
+        } else {
+            res.json(results);
+        }
     });
 });
 
-app.post('/api/fagylaltok', (req, res) => {
-    const { nev, ar_kis, ar_nagy } = req.body;
-    db.query('INSERT INTO fagylaltok (nev, ar_kis, ar_nagy) VALUES (?, ?, ?)',
-        [nev, ar_kis, ar_nagy],
-        (err, result) => {
-            err ? res.status(500).json({ error: err.message }) : res.json({ id: result.insertId });
-        });
-});
-
-app.delete('/api/fagylaltok/:id', (req, res) => {
-    db.query('DELETE FROM fagylaltok WHERE id = ?', [req.params.id], (err) => {
-        err ? res.status(500).json({ error: err.message }) : res.json({ success: true });
+app.get('/api/allergenek', (req, res) => {
+    db.query('SELECT * FROM allergenek', (err, results) => {
+        if (err) {
+            res.status(500).json([]);
+        } else {
+            res.json(results);
+        }
     });
 });
+
+app.listen(PORT, () => console.log(`http://localhost:${PORT}`));
