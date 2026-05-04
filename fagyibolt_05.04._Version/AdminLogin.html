@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Bejelentkezés - Édes Álmok</title>
+    <link rel="stylesheet" href="Fagyibolt.css">
+</head>
+<body>
+
+    <header class="header">
+        <div class="top-bar">
+            <div class="logo">
+                <big>🍦</big>
+                <div>
+                    <h1>Édes Álmok</h1>
+                    <p>Fagylaltozó rendelési rendszer</p>
+                </div>
+            </div>
+            <div class="date-box">
+                📅<span id="date"></span>
+            </div>
+        </div>
+    </header>
+
+<nav class="navbar">
+        <ul>
+            <li><a href="Főoldal.html">🏠Főoldal</a></li>
+            <li><a href="Galéria.html">📷Galéria</a></li>
+            <li><a href="Rólunk.html">💬Rólunk</a></li>
+            <li><a href="Allergének.html">⚠️Allergének</a></li>
+            <li><a href="Rendelés.html">🛒Rendelés</a></li>
+            <li><a href="GYIK.html">❓GYIK</a></li>
+            <li><a href="Kapcsolat.html">📞Kapcsolat</a></li>
+            <li><a href="AdminLogin.html" class="active">Login/Register</a></li>
+        </ul>
+</nav>
+</head>
+
+<body>
+
+<!-- AUTH -->
+<div id="authPage">
+    <div class="box">
+        <h2 id="title">Bejelentkezés</h2>
+
+        <input id="username" placeholder="Felhasználónév">
+        <input id="password" type="password" placeholder="Jelszó">
+
+        <button onclick="submitForm()">OK</button>
+        <div id="error"></div>
+
+        <div class="switch" onclick="toggleMode()">
+            Nincs fiókod? Regisztrálj
+        </div>
+    </div>
+</div>
+
+<style>
+body { margin:0; font-family:Arial; background:#f4f4f4; }
+
+.container { display:flex; height:100vh; }
+
+#authPage {
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:300px;
+}
+
+.box {
+    background:white;
+    padding:100px;
+    border-top: 50px;
+    border-radius:10px;
+    width:600px;
+    height:250px;
+    padding-bottom:100px;
+}
+
+input { width:100%; padding:10px; margin:10px 0; }
+
+button {
+    width:100%;
+    padding:10px;
+    background:#007bff;
+    color:white;
+    border:none;
+    cursor:pointer;
+}
+
+.switch {
+    margin-top:10px;
+    text-align:center;
+    cursor:pointer;
+    color:#007bff;
+}
+
+#error { color:red; }
+
+/* DASHBOARD */
+#dashboard { display:none; }
+
+.sidebar {
+    width:200px;
+    background:#333;
+    color:white;
+    padding:20px;
+}
+
+.sidebar button {
+    width:100%;
+    margin-bottom:10px;
+    background:#444;
+}
+
+.content { flex:1; padding:20px; background:white; }
+
+.page { display:none; }
+.page.active { display:block; }
+
+#title {
+    text-align: center;
+    font-size: xx-large;
+}
+</style>
+
+<!-- DASHBOARD -->
+<div id="dashboard" class="container">
+    <div class="sidebar">
+        <button onclick="show('allorders')">Összes rendelés</button>
+        <button onclick="show('allincome')">Összes bevétel</button>
+        <button onclick="show('todaysorders')">Mai rendelések</button>
+        <button onclick="show('todaysincome')">Mai bevétel</button>
+        <button onclick="logout()">Kijelentkezés</button>
+    </div>
+
+    <div class="usercontent">
+        <div id="myorders" class="page active">
+            <h1>Rendeléseim</h1>
+            <p></p>
+        </div>
+    </div>
+
+    <div class="admincontent">
+        <div id="allorders" class="page active">
+            <h1>Összes rendelés</h1>
+            <p></p>
+        </div>
+
+        <div id="allincome" class="page">
+            <h1>Összes bevétel</h1>
+            <p></p>
+        </div>
+
+        <div id="todaysorders" class="page">
+            <h1>Mai rendelések</h1>
+            <p></p>
+        </div>
+
+            <div id="todaysincome" class="page">
+            <h1>Mai bevétel</h1>
+            <p></p>
+        </div>
+    </div>
+</div>
+
+<script>
+function initAdmin() {
+    let users = JSON.parse(localStorage.getItem("users") || "[]");
+
+    if (!users.find(u => u.username === "admin")) {
+        users.push({
+            username: "admin",
+            password: "acsoport",
+            role: "admin"
+        });
+        localStorage.setItem("users", JSON.stringify(users));
+    }
+}
+
+window.onload = () => {
+    initAdmin();
+    autoLogin();
+};
+
+let isLogin = true;
+
+function toggleMode() {
+    isLogin = !isLogin;
+    document.getElementById("title").textContent = isLogin ? "Bejelentkezés" : "Regisztráció";
+    document.querySelector(".switch").textContent =
+        isLogin ? "Nincs fiókod? Regisztrálj" : "Van fiókod? Jelentkezz be";
+    document.getElementById("error").textContent = "";
+}
+
+function getUsers() {
+    return JSON.parse(localStorage.getItem("users") || "[]");
+}
+
+function saveUsers(users) {
+    localStorage.setItem("users", JSON.stringify(users));
+}
+
+function submitForm() {
+    const u = username.value.trim();
+    const p = password.value.trim();
+    const error = document.getElementById("error");
+
+    if (!u || !p) {
+        error.textContent = "Tölts ki mindent!";
+        return;
+    }
+
+    let users = getUsers();
+
+    if (isLogin) {
+        const user = users.find(x => x.username === u && x.password === p);
+
+        if (user) {
+            loginSuccess(u);
+        } else {
+            error.textContent = "Hibás adatok!";
+        }
+    } else {
+        if (users.find(x => x.username === u)) {
+            error.textContent = "Ez a felhasználó már létezik!";
+            return;
+        }
+
+        users.push({ username: u, password: p });
+        saveUsers(users);
+
+        error.style.color = "green";
+        error.textContent = "Sikeres regisztráció! Most jelentkezz be.";
+    }
+}
+
+function loginSuccess(username) {
+    document.getElementById("authPage").style.display = "none";
+    document.getElementById("dashboard").style.display = "flex";
+
+    if (document.getElementById("remember").checked) {
+        localStorage.setItem("session", JSON.stringify({
+            user: username,
+            expiry: Date.now() + 86400000
+        }));
+    }
+}
+
+function logout() {
+    localStorage.removeItem("session");
+    dashboard.style.display = "none";
+    authPage.style.display = "flex";
+}
+
+function show(id) {
+    document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+}
+
+// ENTER
+document.addEventListener("keydown", e => {
+    if (e.key === "Enter") submitForm();
+});
+
+// AUTO LOGIN
+window.onload = () => {
+    const session = JSON.parse(localStorage.getItem("session"));
+
+    if (session && Date.now() < session.expiry) {
+        loginSuccess(session.user);
+    } else {
+        localStorage.removeItem("session");
+    }
+};
+</script>
+
+</body>
+</html>
