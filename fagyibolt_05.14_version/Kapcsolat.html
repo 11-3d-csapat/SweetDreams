@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🍦Édes Álmok</title>
+  <link rel="stylesheet" href="Fagyibolt.css">
+  <script src="Fagyibolt.js" defer></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+    <header class="header">
+        <div class="top-bar">
+            <div class="logo">
+                <big>🍦</big>
+                <div>
+                    <h1>Édes Álmok</h1>
+                    <p>Fagylaltozó rendelési rendszer</p>
+                </div>
+            </div>
+            <div class="date-box">
+                📅<span id="date"></span>
+            </div>
+        </div>
+    </header>
+    <link rel="stylesheet" href="Fagyibolt.css">
+    <nav class="navbar">
+      <ul>
+        <li><a href="Főoldal.html">🏠Főoldal</a></li>
+        <li><a href="Galéria.html">📷Galéria</a></li>
+        <li><a href="Rólunk.html">💬Rólunk</a></li>
+        <li><a href="Allergének.html">⚠️Allergének</a></li>
+        <li><a href="Rendelés.html">🛒Rendelés</a></li>
+        <li><a href="GYIK.html">❓GYIK</a></li>
+        <li><a href="Kapcsolat.html" class="active">📞Kapcsolat</a></li>
+        <li><a href="AdminLogin.html">Login/Register</a></li>
+      </ul>
+    </nav>
+
+    <h1 id="Contact">Kapcsolat</h1>
+    <p id="ContactText">Várunk szeretettel fagylaltozónkban, vagy lépj kapcsolatba velünk
+         online! Szívesen válaszolunk minden kérdésedre.</p>
+
+              <section class="ourvalues">
+              <div class="ourvalues-cards">
+              <div class="valuecard">
+              <h4>📍 Cím</h4>
+              <p>1052 Budapest, Váci utca 45.</p>
+              </div>
+              <div class="valuecard">
+              <h4>📞 Telefon</h4>
+              <p>+36 30 123 4567</p>
+              </div>
+              <div class="valuecard">
+              <h4>✉️ Email</h4>
+              <p>info@edesalmok.hu</p>
+              </div>
+              <div class="valuecard">
+              <h4>🌐 Weboldal</h4>
+              <p>www.edesalmok.hu</p>
+              </div>
+              </div>
+              </section>
+
+              <section class="ourvalues">
+              <div class="ourvalues-cards">
+              <div class="valuecard">
+            🕐 Nyitvatartás
+            <p>Hétfő 10:00 - 20:00</p>
+            <p>Kedd 10:00 - 20:00</p>
+            <p>Szerda 10:00 - 20:00</p>
+            <p>Csütörtök 10:00 - 20:00</p>
+            <p>Péntek 10:00 - 21:00</p>
+            <p>Szombat 9:00 - 21:00</p>
+            <p>Vasárnap 9:00 - 20:00</p>
+            <p>✅ Jelenleg nyitva vagyunk! Online rendelés is elérhető.</p>
+              </div>
+              <div class="valuecard">
+            🚚 Helyszín és szállítás
+            <p>Megközelítés</p>
+            <p>🚇 M1, M2, M3 - Deák Ferenc tér (5 perc séta)</p>
+            <p>🚌 7, 9, 16 - Váci utca megálló</p>
+            <p>🚗 Parkolás: Váci utca környéki parkolóházak</p>
+
+            <p>Szállítási területek</p>
+            <p>V. kerület (Belváros)</p>
+            <p>VI. kerület (Terézváros)</p>
+            <p>VII. kerület (Erzsébetváros)</p>
+            <p>VIII. kerület (Józsefváros)</p>
+            <p>IX. kerület (Ferencváros)</p>
+            <p>Szállítási díj: 500 Ft | Ingyenes 3000 Ft felett</p>
+              </div>
+              </div>
+              </section>
+
+                        
+              <section class="ourvalues">
+              <h3>Kövess minket!</h3>
+              <div class="ourvalues-cards">
+              <div class="valuecard">
+              <h4>📘Facebook</h4>
+              <p>@EdesAlmokFagylaltozo</p>
+              </div>
+              <div class="valuecard">
+              <h4>📸Instagram</h4>
+              <p>@edesalmok_bp</p>
+              </div>
+              <div class="valuecard">
+              <h4>🎵Tiktok</h4>
+              <p>@edesalmok</p>
+              </div>
+              </div>
+              <p>Oszd meg velünk fagylaltos élményeidet! 📸✨</p>
+            <p>#ÉdesÁlmok #FagylaltSzerelem</p>
+              </section>
+
+              <section class="ourvalues">
+              <div class="ourvalues-cards">
+              <div class="valuecard">
+              <h4>🛒Online rendelés</h4>
+              <p>Rendeld meg kedvenc fagylaltodat kényelmesen otthonról!</p>
+              <a href="Rendelés.html"><button onclick="OrderNow()">Rendelés leadása</button></a>
+              </div>
+              <div class="valuecard">
+              <h4>📞Telefonos rendelés</h4>
+              <p>Hívj minket, és mi intézzük a rendelésed!</p>
+              <button onclick="PhoneCall()">+36 30 123 4567</button>
+              </div>
+              </div>
+            </section>
+
+        <section class="ourvalues">
+            Sürgős esetben
+            <p>Ha problémád van a rendeléseddel, vagy sürgős kérdésed van:</p>
+            <span id="white">📱 WhatsApp: +36 30 123 4567</span>
+            <span id="white">⚡ Azonnali válasz: 8:00-22:00</span>
+        </section>
+
+      <script>
+        const now = new Date();
+        document.getElementById('date').textContent = now.getFullYear() + '.' + 
+                     (now.getMonth() + 1) + '.' + 
+                     now.getDate() + '.';
+    </script>
+
+</body>
+</html>
